@@ -1,0 +1,16 @@
+{
+  "name": "etax-sim-frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "scss": "node-sass -watch -include-path scss -o css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://gitlab.umadeira.pt:8080/Joaquim.perez/etax-sim-frontend.git"
+  },
+  "author": "",
+  "license": "ISC"
+}
