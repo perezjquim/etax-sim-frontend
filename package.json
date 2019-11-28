@@ -6,7 +6,13 @@
     "scss": "node-sass -watch -include-path scss -o css",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "dev": "webpack-dev-server --inline --progress --config build/",
+    "start": "npm run dev",
+    "unit": "jest --config test/unit/jest.conf.js --converage",
+    "e2e": "node test/e2e/runner.js",
+    "test": "npm run unit && npm run e2e",
+    "deploy": "push-dir --dir=dist --branch=master --cleanup"
   },
   "dependencies": {
     "core-js": "^3.4.3",
