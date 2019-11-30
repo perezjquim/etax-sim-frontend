@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build && cd docs && sed -i 's/=\\//=/g' *.html && cd js && sed -i 's/=\\//=/g' *",
+    "build": "vue-cli-service build && cd docs && sed -i 's/\\/js/js/g' *.html && sed -i 's/\\/css/css/g' *.html && cd js && sed -i 's/\\/js/js/g' * && sed -i 's/\\/css/css/g' *",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
