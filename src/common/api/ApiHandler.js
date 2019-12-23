@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const BASE_DOMAIN = "https://localhost:5001";
+//const BASE_DOMAIN = "https://localhost:5001";
+const BASE_DOMAIN = "https://etax-sim-api.azurewebsites.net";
 const BASE_URL = `${BASE_DOMAIN}/api/`;
 
 export default
