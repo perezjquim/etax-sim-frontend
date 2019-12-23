@@ -17,8 +17,8 @@
     const onBeforeRouteEnter = function () {
         Vue.loadScript("../static/amcharts-core.js").then(() => {
             Vue.loadScript("../static/amcharts-maps.js").then(() => {
-                Vue.loadScript("../static/amcharts-geodata-worldLow.js").then(() => {
-                    Vue.loadScript("../static/amcharts-themes-animated.js").then(() => {
+                Vue.loadScript("../static/amcharts-worldLow.js").then(() => {
+                    Vue.loadScript("../static/amcharts-animated.js").then(() => {
                         am4core = window.am4core;
                         am4maps = window.am4maps;
                         am4geodata_worldLow = window.am4geodata_worldLow;
@@ -54,7 +54,6 @@
             catch (e) {
                 const sMsg = "-- api failed --";
                 alert(sMsg);
-
             }
         },
 
