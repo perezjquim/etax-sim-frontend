@@ -1,6 +1,5 @@
 <template>
   <v-app>
-
     <Navbar />
 
     <v-content class="grey darken-4 blue--text text--lighten-4">
