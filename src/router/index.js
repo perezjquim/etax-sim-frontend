@@ -9,9 +9,9 @@ var routes = [
   component: () => import("@/components/Map.vue")
 }];
 
-const req = require.context('@/views/', true);
+const req = require.context('@/views/', true,/\.*\.vue$/);
 req.keys().forEach(sPath => {
-  const sName = sPath.split('.')[1].split('/')[1];
+  const sName = sPath.substr(2).replace(".vue","");
   routes.push({
     path:`/${sName}`,
     component: () => import(`../views/${sName}.vue`)
