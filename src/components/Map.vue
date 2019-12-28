@@ -1,5 +1,9 @@
 <template>
-    <div id="chartdiv" style="width: 100%; height: 90vh" />
+    <div style="width: 100%; height: 100%;">
+        <div id="chartdiv" style="width: 100%; height: 100%;" />
+        <v-progress-circular id="loading-indicator" :size="100" style="height: 50%; width: 100vw; position: absolute; top: 25%;" indeterminate>
+        </v-progress-circular>
+    </div>
 </template>
 
 <script>
@@ -25,7 +29,7 @@
                         am4maps = window.am4maps;
                         am4geodata_worldLow = window.am4geodata_worldLow;
                         am4core.ready(function () {
-                            map.onInit();
+                            oMap.onInit();
                         });
                     })
                 })
@@ -33,7 +37,7 @@
         });
     };
 
-    const map = {
+    const oMap = {
 
         _getCountries: async function () {
             try {
@@ -47,25 +51,19 @@
                     );
                 }
                 else {
-                    const sMsg = "-- no countries --";
-                    alert(sMsg);
+                    this._message("No countries!");
                     return [];
                 }
             }
             catch (e) {
-                const sMsg = "-- api failed --";
-                alert(sMsg);
+                this._message("API failure!");
             }
         },
 
         _prepareZoom: function () {
             this.oChart.zoomControl = new am4maps.ZoomControl();
-            var oHomeButton = new am4core.Button();
-
-            oHomeButton.events.on("hit", function () {
-                this.onHomeSelected();
-            }.bind(this));
-
+            const oHomeButton = new am4core.Button();
+            oHomeButton.events.on("hit", this.onHomeSelected.bind(this));
             oHomeButton.icon = new am4core.Sprite();
             oHomeButton.padding(7, 5, 7, 5);
             oHomeButton.width = 30;
@@ -77,12 +75,12 @@
 
         _prepareCountriesData: function () {
             const data = [];
-            for (var id in this.countries) {
-                const country = this.countries[id];
+            for (var id in this.oCountries) {
+                const country = this.oCountries[id];
                 if (country.maps.length > 0) {
                     data.push({
                         id: id,
-                        color: this.oChart.colors.getIndex(this.continents[country.continent_code]),
+                        color: this.oChart.colors.getIndex(this.oContinents[country.continent_code]),
                         map: country.maps[0]
                     });
                 }
@@ -90,80 +88,94 @@
             return data;
         },
 
-        _prepareoWorldSeries: function()
-        {
+        _prepareWorldSeries: function () {
             this.oWorldSeries = this.oChart.series.push(new am4maps.MapPolygonSeries());
             this.oWorldSeries.useGeodata = true;
             this.oWorldSeries.geodata = am4geodata_worldLow;
             this.oWorldSeries.exclude = ["AQ"];
-            var oWorldPolygon = this.oWorldSeries.mapPolygons.template;
+            const oWorldPolygon = this.oWorldSeries.mapPolygons.template;
             oWorldPolygon.tooltipText = "{name}";
             oWorldPolygon.nonScalingStroke = true;
             oWorldPolygon.strokeOpacity = 0.5;
             oWorldPolygon.fill = am4core.color("#eee");
             oWorldPolygon.propertyFields.fill = "color";
-            var oWorldHs = oWorldPolygon.states.create("hover");
+            const oWorldHs = oWorldPolygon.states.create("hover");
             oWorldHs.properties.fill = this.oChart.colors.getIndex(9);
-            oWorldPolygon.events.on("hit", function (ev) {
-                this.onCountrySelected(ev);
-            }.bind(this));            
+            oWorldPolygon.events.on("hit", this.onCountrySelected.bind(this));
         },
 
-        _prepareoCountrySeries: function()
-        {
+        _prepareCountrySeries: function () {
             this.oCountrySeries = this.oChart.series.push(new am4maps.MapPolygonSeries());
             this.oCountrySeries.useGeodata = true;
             this.oCountrySeries.hide();
-            this.oCountrySeries.geodataSource.events.on("done", function () {
-                this.onGeodataFetched();
-            }.bind(this));
-            var oCountryPolygon = this.oCountrySeries.mapPolygons.template;
+            this.oCountrySeries.geodataSource.events.on("done", this.onGeodataFetched.bind(this));
+            const oCountryPolygon = this.oCountrySeries.mapPolygons.template;
             oCountryPolygon.tooltipText = "{name}";
             oCountryPolygon.nonScalingStroke = true;
             oCountryPolygon.strokeOpacity = 0.5;
             oCountryPolygon.fill = am4core.color("#eee");
-            oCountryPolygon.propertyFields.fill = "color";            
-            var oCountryHs = oCountryPolygon.states.create("hover");
+            oCountryPolygon.propertyFields.fill = "color";
+            const oCountryHs = oCountryPolygon.states.create("hover");
             oCountryHs.properties.fill = this.oChart.colors.getIndex(9);
-
-            oCountryPolygon.events.on("hit", function (ev) {
-                this.onRegionSelected(ev);
-            }.bind(this));
+            oCountryPolygon.events.on("hit", this.onRegionSelected.bind(this));
         },
 
         _prepareSeries: function () {
             this.oChart.projection = new am4maps.projections.Miller();
-            this._prepareoWorldSeries();
-            this._prepareoCountrySeries();
-            var data = this._prepareCountriesData();
-            this.oWorldSeries.data = data;
+            this._prepareWorldSeries();
+            this._prepareCountrySeries();
+            const oData = this._prepareCountriesData();
+            this.oWorldSeries.data = oData;
         },
 
-        _isCountryConfigured: function(aId)
-        {
+        _isCountryConfigured: function (aId) {
             return this.oConfiguredCountries.map(c => c.name).includes(aId);
         },
 
-        _isRegionConfigured: function(aCountryId, aRegionId)
-        {
+        _isRegionConfigured: function (aCountryId, aRegionId) {
             const oCountry = this.oConfiguredCountries.filter(c => c.name == aCountryId);
-            if(oCountry && oCountry.length > 0)
-            {
+            if (oCountry && oCountry.length > 0) {
                 const oRegion = oCountry[0].regions.filter(r => r.name == aRegionId);
                 return oRegion && oRegion.length > 0;
             }
-            else
-            {
+            else {
                 return false;
             }
         },
 
-        onInit: async function () {
-            if(!this.countries) this.countries = await this._getCountries();
-            if(!this.continents) this.continents = oContinentsConfig;
-            this.oChart = am4core.create("chartdiv", am4maps.MapChart);
-            this._prepareSeries();
+        _prepareChart: function () {
+            this.oChart.seriesContainer.events.disableType("doublehit");
+            this.oChart.chartContainer.background.events.disableType("doublehit");
+            this.oChart.chartContainer.wheelable = false;
             this._prepareZoom();
+        },
+
+        onInit: async function () {
+            this.onBeforeRendering();
+
+            if (!this.oCountries) this.oCountries = await this._getCountries();
+            if (!this.oContinents) this.oContinents = oContinentsConfig;
+            this.oChart = am4core.create("chartdiv", am4maps.MapChart);
+
+            this.oChart.events.once("appeared",this.onAfterRendering.bind(this));
+            this._prepareChart();
+            this._prepareSeries();
+        },
+
+        onBeforeRendering: function()
+        {
+            this._setBusy(true);
+        },
+
+        onAfterRendering: function()
+        {
+            this._setBusy(false);
+        },
+
+        _setBusy: function(bBusy)
+        {
+            const oIndicator = document.getElementById("loading-indicator");
+            oIndicator.style.display = (bBusy && 'block') || 'none';
         },
 
         onHomeSelected: function () {
@@ -183,26 +195,33 @@
             const isConfigured = this._isCountryConfigured(country_id);
             if (isConfigured) {
                 ev.target.series.chart.zoomToMapObject(ev.target);
-                var map = ev.target.dataItem.dataContext.map;
-                //const oContext = ev.target.dataItem.dataContext;
-                if (map) {
+                const sMap = ev.target.dataItem.dataContext.map;
+                if (sMap) {
                     ev.target.isHover = false;
-                    this.oCountrySeries.geodataSource.url = `${BASE_URL}/${map}.json`;
-                    this.oCountrySeries.geodataSource.events.once("ended", function()
-                    {
-                        this.oCountrySeries.geodataSource.data.features =  this.oCountrySeries.geodataSource.data.features.filter(f => this._isRegionConfigured(country_id, f.id));
-                    }.bind(this),this);
-                    this.oCountrySeries.geodataSource.load();                                    
+                    this.oCountrySeries.geodataSource.url = `${BASE_URL}/${sMap}.json`;
+                    this.oCountrySeries.geodataSource.events.once("ended", function () {
+                        this.oCountrySeries.geodataSource.data.features = this.oCountrySeries.geodataSource.data.features.filter(f => this._isRegionConfigured(country_id, f.id));
+                        
+                        const bHasRegions = this.oCountrySeries.geodataSource.data.features.length > 0;
+                        if(!bHasRegions)
+                        {
+                            this._message("No regions!");
+                            this.onHomeSelected();
+                        }
+                    }.bind(this));
+                    this.oCountrySeries.geodataSource.load();
                 }
             }
         },
 
         onRegionSelected: function (ev) {
-            // TODO - CHAMADO AO ESCOLHER UMA REGIÃO
             const route_id = this._getSelectedCountryId(ev);
             Router.push({ path: route_id });
-            alert(ev);
-            // TODO - CHAMADO AO ESCOLHER UMA REGIÃO
+        },
+
+        _message: function(sMsg)
+        {
+            this.oChart.openPopup(sMsg);
         },
 
         _getSelectedCountryId: function (ev) {
