@@ -1,21 +1,20 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-//import Home from '../views/Home.vue'
-//comentei a Home e tou a fazer routing direto do mapa para a raiz
+
+import map from '../views/map.vue'
 import faq from '../views/faq.vue'
-//o about foi carregado mesmo no codigo em baixo
-import santarem from '../views/santarem.vue'
-import irs from '../views/irs.vue'
-import liquid from '../views/liquid.vue'
+import about from '../views/about.vue'
+
+import irsPT from '../views/portugal/irsPT.vue'
+import liquidPT from '../views/portugal/liquidPT.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    //name: 'home',
-    //component: Home
-    component: () => import("@/components/Map.vue")
+    name: 'map',
+    component: map
   },
   {
     path: '/faq',
@@ -25,25 +24,22 @@ const routes = [
   {
     path: '/about',
     name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: about
   },
   {
-    path: '/santarem',
-    name: 'santarem',
-    component: santarem
+    path: '/pt/:id',
+    name: 'portugal' ,
+    component: () => import("@/views/portugal/portugal.vue")
   },
   {
-    path: '/santarem/irs',
-    name: 'irs',
-    component: irs
+    path: '/pt/:id/irsPT',
+    name: 'irsPT',
+    component: irsPT
   },
   {
-    path: '/santarem/liquid',
-    name: 'liquid',
-    component: liquid
+    path: '/pt/:id/liquidPT',
+    name: 'liquidPT',
+    component: liquidPT
   },
 ]
 

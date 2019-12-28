@@ -199,9 +199,9 @@
 
         onRegionSelected: function (ev) {
             // TODO - CHAMADO AO ESCOLHER UMA REGIÃO
-            const route_id = this._getSelectedCountryId(ev);
+            const route_id = "/pt/" + this._getSelectedCountryId(ev);
             Router.push({ path: route_id });
-            alert(ev);
+            //alert(ev);
             // TODO - CHAMADO AO ESCOLHER UMA REGIÃO
         },
 
