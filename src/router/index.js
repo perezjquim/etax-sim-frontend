@@ -3,20 +3,38 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter);
 
-var routes = [
-{
-  path: '/',  
-  component: () => import("@/components/Map.vue")
-}];
-
-const req = require.context('@/views/', true,/\.*\.vue$/);
-req.keys().forEach(sPath => {
-  const sName = sPath.substr(2).replace(".vue","");
-  routes.push({
-    path:`/${sName}`,
-    component: () => import(`../views/${sName}.vue`)
-  })
-});
+const routes = [
+  {
+    path: '/',
+    name: 'map',
+    component: () => import("@/views/map.vue")
+  },
+  {
+    path: '/faq',
+    name: 'faq',
+    component: () => import("@/views/faq.vue")
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: () => import("@/views/About.vue")
+  },
+  {
+    path: '/pt/:id',
+    name: 'portugal' ,
+    component: () => import("@/views/portugal/portugal.vue")
+  },
+  {
+    path: '/pt/:id/irsPT',
+    name: 'irsPT',
+    component: () => import("@/views/portugal/irsPT.vue")
+  },
+  {
+    path: '/pt/:id/liquidPT',
+    name: 'liquidPT',
+    component: () => import("@/views/portugal/liquidPT.vue")
+  },
+]
 
 const router = new VueRouter({
   mode: 'history',
