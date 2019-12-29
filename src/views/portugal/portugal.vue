@@ -1,40 +1,48 @@
 <template>
-  <div class="portugal" >
+  <div class="portugal">
 
     <div v-for="region in portugal" :key="region.name">
     <div v-if="$route.params.id === region.id">
-    <h1 class="display-4 font-weight-black dark blue darken-4 white--text text--lighten-4 text-center" >
+
+      {{validregion()}}
+
+      <h1 class="display-4 font-weight-black dark blue darken-4 white--text text--lighten-4 text-center">
+        
+        {{region.name}}
+        
+      </h1>
+
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum debitis facilis modi sapiente corrupti voluptate, expedita exercitationem autem repellat dolor dicta minus saepe eligendi officiis ab ipsum magni et fuga.
+      </p>
+
+      <v-layout justify-center>
+
+      <v-btn width=15vw height=15vw fixed left light class="white lighten-4 black--text text--darken-4" v-bind:to="region.id + '/liquidPT'">
+        <v-icon left>mdi-currency-eur</v-icon>
+        <span>Salário Líquido</span>
+      </v-btn>
+
       
-      {{region.name}}
+      <v-btn width=15vw height=15vw fixed middle light class="white lighten-4 black--text text--darken-4" v-bind:to="region.id + '/irsPT'">
+        <v-icon left>mdi-calculator</v-icon>
+        <span>IRS</span>
+      </v-btn>
       
-    </h1>
-    
 
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum debitis facilis modi sapiente corrupti voluptate, expedita exercitationem autem repellat dolor dicta minus saepe eligendi officiis ab ipsum magni et fuga.
-    </p>
+      <v-btn width=15vw height=15vw fixed right light class="white lighten-4 black--text text--darken-4">
+        <v-icon left>mdi-food</v-icon>
+        <span>Subsídio de Alimentação</span>
+      </v-btn>
 
-    <v-layout justify-center>
+      </v-layout>
 
-    <v-btn width=15vw height=15vw fixed left light class="white lighten-4 black--text text--darken-4" v-bind:to="region.id + '/liquidPT'">
-      <v-icon left>mdi-currency-eur</v-icon>
-      <span>Salário Líquido</span>
-    </v-btn>
-
-    
-    <v-btn width=15vw height=15vw fixed middle light class="white lighten-4 black--text text--darken-4" v-bind:to="region.id + '/irsPT'">
-      <v-icon left>mdi-calculator</v-icon>
-      <span>IRS</span>
-    </v-btn>
-    
-
-    <v-btn width=15vw height=15vw fixed right light class="white lighten-4 black--text text--darken-4">
-      <v-icon left>mdi-food</v-icon>
-      <span>Subsídio de Alimentação</span>
-    </v-btn>
-
-    </v-layout>
     </div>
+    </div>
+
+    <div v-if="invalidregion===true" class="display-4 font-weight-black dark white--text text--lighten-4 text-center fill-height grid-list-md text-xs-center wrap align-center">
+      Erro <!-- QUERO CENTRAR ESTA MERDA VERTICALMENTE E NÃO SEI COMO -->
+      <p class="display-1">Região não encontrada</p>
     </div>
 
   </div>
@@ -44,6 +52,9 @@
 export default {
     data() {
         return {
+
+        invalidregion: true,
+
         portugal: [
           { id: 'PT-01', name: 'Aveiro' },
           { id: 'PT-02', name: 'Beja' },
@@ -67,6 +78,13 @@ export default {
           { id: 'PT-30', name: 'Madeira' },
         ],
         }
-    }    
+    },
+
+    methods: {
+      validregion() {
+        this.invalidregion= false;
+      }
+    },
+
 }
 </script>

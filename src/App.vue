@@ -11,7 +11,6 @@
     <v-footer app class="grey darken-3 blue--text text--lighten-4">
       <span>&copy; 2019</span>
     </v-footer>
-
   </v-app>
 </template>
 
@@ -22,7 +21,7 @@ export default {
   name: 'App',
   components: { Navbar },
   data: () => ({
-    //
+    
   }),
 };
 </script>

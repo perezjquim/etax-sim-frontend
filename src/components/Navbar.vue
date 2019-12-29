@@ -40,7 +40,9 @@
 export default {
     data() {
         return {
+            
         drawer: false,
+
         links: [
             { icon: 'mdi-map-marker-radius', text: 'Início', route: '/' },
             { icon: 'mdi-frequently-asked-questions', text: 'FAQ', route: '/faq' },

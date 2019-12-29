@@ -3,25 +3,33 @@
     
     <div v-for="region in portugal" :key="region.name">
     <div v-if="$route.params.id === region.id">
-    <h1 class="display-4 font-weight-black dark blue darken-4 white--text text--lighten-4 text-center" >
-      
-      {{region.name}} > IRS
-      
-    </h1>
 
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum debitis facilis modi sapiente corrupti voluptate, expedita exercitationem autem repellat dolor dicta minus saepe eligendi officiis ab ipsum magni et fuga.
-    </p>
+      {{validregion()}}
 
-    <br>
+      <h1 class="display-4 font-weight-black dark blue darken-4 white--text text--lighten-4 text-center" >
+        
+        {{region.name}} > IRS
+        
+      </h1>
 
-    <v-form>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum debitis facilis modi sapiente corrupti voluptate, expedita exercitationem autem repellat dolor dicta minus saepe eligendi officiis ab ipsum magni et fuga.
+      </p>
 
-    </v-form>
+      <br>
+
+      <v-form>
+
+      </v-form>
+
     </div>
     </div>
 
-    
+    <div v-if="invalidregion===true" class="display-4 font-weight-black dark white--text text--lighten-4 text-center fill-height grid-list-md text-xs-center wrap align-center">
+      Erro <!-- QUERO CENTRAR ESTA MERDA VERTICALMENTE E NÃO SEI COMO -->
+      <p class="display-1">Região não encontrada</p>
+    </div>
+
   </div>
 </template>
 
@@ -29,6 +37,9 @@
 export default {
     data() {
         return {
+
+        invalidregion: true,
+
         portugal: [
           { id: 'PT-01', name: 'Aveiro' },
           { id: 'PT-02', name: 'Beja' },
@@ -52,6 +63,13 @@ export default {
           { id: 'PT-30', name: 'Madeira' },
         ],
         }
-    }    
+    },
+
+    methods: {
+      validregion() {
+        this.invalidregion= false;
+      }
+    },
+
 }
 </script>
