@@ -215,8 +215,9 @@
         },
 
         onRegionSelected: function (ev) {
-            const route_id = this._getSelectedCountryId(ev);
-            Router.push({ path: "/pt/"+route_id });
+            const sRegion = this._getSelectedCountryId(ev);
+            const sCountry = sRegion.substr(0,2);
+            Router.push({ path: `/${sCountry}/${sRegion}` });
         },
 
         _message: function(sMsg)
