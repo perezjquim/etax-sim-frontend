@@ -13,7 +13,6 @@ oReq.keys().forEach(sFilePath => {
     const sPath = sName == "map" ? "/" : `/${sName}`;
     routes.push({
       path: sPath,
-      name: sName,
       component: () => import(`../views/${sName}.vue`)
     })
   }
@@ -24,16 +23,15 @@ oReq.keys().forEach(sFilePath => {
     const sPath = sFolderName == sChildName ? `/${sFolderName}/:id` : `/${sFolderName}/:id/${sChildName}`;
     routes.push({
       path: sPath,
-      name: sChildName,
       component: () => import(`../views/${sFolderName}/${sChildName}.vue`)
     });
   }
 });
 
-const router = new VueRouter({
+const oRouter = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
 })
 
-export default router
+export default oRouter

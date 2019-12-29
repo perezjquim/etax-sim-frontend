@@ -191,7 +191,7 @@
 
         onCountrySelected: function (ev) {
             const BASE_URL = "https://www.amcharts.com/lib/4/geodata/json";
-            const country_id = this._getSelectedCountryId(ev);
+            const country_id = this._getSelectedId(ev);
             const isConfigured = this._isCountryConfigured(country_id);
             if (isConfigured) {
                 ev.target.series.chart.zoomToMapObject(ev.target);
@@ -215,7 +215,7 @@
         },
 
         onRegionSelected: function (ev) {
-            const sRegion = this._getSelectedCountryId(ev);
+            const sRegion = this._getSelectedId(ev);
             const sCountry = sRegion.substr(0,2);
             Router.push({ path: `/${sCountry}/${sRegion}` });
         },
@@ -225,7 +225,7 @@
             this.oChart.openPopup(sMsg);
         },
 
-        _getSelectedCountryId: function (ev) {
+        _getSelectedId: function (ev) {
             return ev.target._dataItem._dataContext.id;
         }
     };
