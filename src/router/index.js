@@ -1,30 +1,23 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import map from '../views/map.vue'
-import faq from '../views/faq.vue'
-import about from '../views/about.vue'
-
-import irsPT from '../views/portugal/irsPT.vue'
-import liquidPT from '../views/portugal/liquidPT.vue'
-
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
     name: 'map',
-    component: map
+    component: () => import("@/views/map.vue")
   },
   {
     path: '/faq',
     name: 'faq',
-    component: faq
+    component: () => import("@/views/faq.vue")
   },
   {
     path: '/about',
     name: 'about',
-    component: about
+    component: () => import("@/views/About.vue")
   },
   {
     path: '/pt/:id',
@@ -34,12 +27,12 @@ const routes = [
   {
     path: '/pt/:id/irsPT',
     name: 'irsPT',
-    component: irsPT
+    component: () => import("@/views/portugal/irsPT.vue")
   },
   {
     path: '/pt/:id/liquidPT',
     name: 'liquidPT',
-    component: liquidPT
+    component: () => import("@/views/portugal/liquidPT.vue")
   },
 ]
 
