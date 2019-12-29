@@ -132,14 +132,23 @@
             return this.oConfiguredCountries.map(c => c.name).includes(aId);
         },
 
-        _isRegionConfigured: function (aCountryId, aRegionId) {
-            const oCountry = this.oConfiguredCountries.filter(c => c.name == aCountryId);
+        _isRegionConfigured: function (sCountryName, sRegionName) {
+            const oCountry = this.oConfiguredCountries.filter(c => c.name == sCountryName);
             if (oCountry && oCountry.length > 0) {
-                const oRegion = oCountry[0].regions.filter(r => r.name == aRegionId);
+                const oRegion = oCountry[0].regions.filter(r => r.name == sRegionName);
                 return oRegion && oRegion.length > 0;
             }
             else {
                 return false;
+            }
+        },
+
+        _getRegionInfo: function(sCountryName, sRegionName)
+        {
+            const oCountry = this.oConfiguredCountries.filter(c => c.name == sCountryName);
+            if (oCountry && oCountry.length > 0) {
+                const oRegion = oCountry[0].regions.filter(r => r.name == sRegionName);
+                return oRegion[0];
             }
         },
 
@@ -217,7 +226,8 @@
         onRegionSelected: function (ev) {
             const sRegion = this._getSelectedId(ev);
             const sCountry = sRegion.substr(0,2);
-            Router.push({ path: `/${sCountry}/${sRegion}` });
+            const oRegionInfo = this._getRegionInfo(sCountry,sRegion);            
+            Router.push({ path: `/${sCountry}/${oRegionInfo.id}` });
         },
 
         _message: function(sMsg)
@@ -234,8 +244,7 @@
     export default {
         layout: 'App',
         beforeRouteEnter(to, from, next) {
-            next(vm => {
-                vm;
+            next(() => {
                 onBeforeRouteEnter();
             })
         }
