@@ -132,14 +132,23 @@
             return this.oConfiguredCountries.map(c => c.name).includes(aId);
         },
 
-        _isRegionConfigured: function (aCountryId, aRegionId) {
-            const oCountry = this.oConfiguredCountries.filter(c => c.name == aCountryId);
+        _isRegionConfigured: function (sCountryName, sRegionName) {
+            const oCountry = this.oConfiguredCountries.filter(c => c.name == sCountryName);
             if (oCountry && oCountry.length > 0) {
-                const oRegion = oCountry[0].regions.filter(r => r.name == aRegionId);
+                const oRegion = oCountry[0].regions.filter(r => r.name == sRegionName);
                 return oRegion && oRegion.length > 0;
             }
             else {
                 return false;
+            }
+        },
+
+        _getRegionInfo: function(sCountryName, sRegionName)
+        {
+            const oCountry = this.oConfiguredCountries.filter(c => c.name == sCountryName);
+            if (oCountry && oCountry.length > 0) {
+                const oRegion = oCountry[0].regions.filter(r => r.name == sRegionName);
+                return oRegion[0];
             }
         },
 
@@ -191,7 +200,7 @@
 
         onCountrySelected: function (ev) {
             const BASE_URL = "https://www.amcharts.com/lib/4/geodata/json";
-            const country_id = this._getSelectedCountryId(ev);
+            const country_id = this._getSelectedId(ev);
             const isConfigured = this._isCountryConfigured(country_id);
             if (isConfigured) {
                 ev.target.series.chart.zoomToMapObject(ev.target);
@@ -215,8 +224,10 @@
         },
 
         onRegionSelected: function (ev) {
-            const route_id = this._getSelectedCountryId(ev);
-            Router.push({ path: "/pt/"+route_id });
+            const sRegion = this._getSelectedId(ev);
+            const sCountry = sRegion.substr(0,2);
+            const oRegionInfo = this._getRegionInfo(sCountry,sRegion);            
+            Router.push({ path: `/${sCountry}/${oRegionInfo.id}` });
         },
 
         _message: function(sMsg)
@@ -224,7 +235,7 @@
             this.oChart.openPopup(sMsg);
         },
 
-        _getSelectedCountryId: function (ev) {
+        _getSelectedId: function (ev) {
             return ev.target._dataItem._dataContext.id;
         }
     };
@@ -233,8 +244,7 @@
     export default {
         layout: 'App',
         beforeRouteEnter(to, from, next) {
-            next(vm => {
-                vm;
+            next(() => {
                 onBeforeRouteEnter();
             })
         }
