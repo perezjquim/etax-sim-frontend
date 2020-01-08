@@ -27,7 +27,7 @@ export default
                 },
                 post: function (aData) {
                     try {
-                        return oAPIController.get(`${aName}`, aData);
+                        return oAPIController.post(`${aName}`, aData);
                     }
                     catch (e) {
                         return null;
