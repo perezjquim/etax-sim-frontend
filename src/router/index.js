@@ -28,9 +28,12 @@ oReq.keys().forEach(sFilePath => {
   }
 });
 
+const bIsProduction = window.location.hostname == "perezjquim.github.io";
+const sBase = bIsProduction ? '/etax-sim-frontend/' : '/';
+
 const oRouter = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
+  base: sBase,
   routes
 })
 

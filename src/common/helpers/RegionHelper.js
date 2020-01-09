@@ -10,17 +10,8 @@ export default
               try
               {
                 const oRegionInfo = await oRegionRepository.getById(sRegionId);
-                vm.region = oRegionInfo.data;
-
-
-              }
-              catch(e)
-              {
-                alert(">> region info not obtained");
-              }
-                  // testing purposes - até ser fixed o entity da região
-                  // const sCountryId = vm.region.countryId;
-                  const sCountryId = 3;
+                vm.region = oRegionInfo.data.region;
+                const sCountryId = vm.region.countryId;
                   try
                   {              
                         const  oStrategyInfo = await oStrategyRepository.getById(`${sCountryId}/${sRegionId}`);
@@ -41,9 +32,11 @@ export default
                   {
                         alert(">> strategy info not obtained");
                   }              
-
-
-
+              }
+              catch(e)
+              {
+                alert(">> region info not obtained");
+              }              
        },
 
         _getExceptionStrategy: function(oStrategy)
