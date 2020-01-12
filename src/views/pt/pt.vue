@@ -38,14 +38,11 @@
 
 <script>
 import RegionHelper from '../../common/helpers/RegionHelper';
-//import FormHelper from '../../common/helpers/FormHelper';
 
 export default {
         beforeRouteEnter(to, from, next) {
             next(vm => {
                 RegionHelper.onBeforeRouteEnter(vm);
-                // testing purposes
-                //FormHelper.submitData({test: 1, test2: 2});
             })
         },        
    data() {
