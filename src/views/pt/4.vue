@@ -23,9 +23,10 @@ export default {
     },
     methods:
     {
-      onSubmit: function()
+      onSubmit: async function()
       {
-          FormHelper.onSubmit(this, {test: 1, test2: 2});
+          const oResult = await FormHelper.onSubmit(this, {test: 1, test2: 2});
+          alert(oResult.data.msg);
       }
     }    
 }
