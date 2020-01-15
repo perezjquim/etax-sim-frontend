@@ -43,7 +43,11 @@
             try {
                 const countries = await oCountries.get();
                 if (countries) {
-                    this.oConfiguredCountries = countries.data;
+                    this.oConfiguredCountries = countries.data.map(function(c)
+                    {
+                        c.country.regions = c.regions;
+                        return c.country;
+                    });
                     return Object.fromEntries(
                         Object.entries(oCountriesConfig).filter(
                             ([key]) => this._isCountryConfigured(key)

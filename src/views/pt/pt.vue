@@ -14,13 +14,13 @@
 
     <v-layout justify-center>
 
-    <v-btn width=15vw height=15vw fixed left light class="white lighten-4 black--text text--darken-4" v-bind:to="region.id + '/liquidPT'">
+    <v-btn width=15vw height=15vw fixed left light class="white lighten-4 black--text text--darken-4" v-bind:to="$route.params.id + '/liquidPT'">
       <v-icon left>mdi-currency-eur</v-icon>
       <span>Salário Líquido</span>
     </v-btn>
 
     
-    <v-btn width=15vw height=15vw fixed middle light class="white lighten-4 black--text text--darken-4" v-bind:to="region.id + '/irsPT'">
+    <v-btn width=15vw height=15vw fixed middle light class="white lighten-4 black--text text--darken-4" v-bind:to="$route.params.id + '/irsPT'">
       <v-icon left>mdi-calculator</v-icon>
       <span>IRS</span>
     </v-btn>
@@ -37,25 +37,12 @@
 </template>
 
 <script>
-    import ApiHandler from "../../common/api/ApiHandler";
-    const oRegionRepository = ApiHandler.getRepository("regions");
-    const oStrategyRepository = ApiHandler.getRepository("StrategyByCountryByRegions/country/region");
-
-   const onBeforeRouteEnter = async function(vm)
-   {
-      const sRegionId = vm.$route.params.id;
-      const oRegionInfo = await oRegionRepository.getById(sRegionId);
-      vm.region = oRegionInfo.data;
-
-      const sCountryId = vm.region.countryId;
-      const  oStrategyInfo = await oStrategyRepository.getById(`${sCountryId}/${sRegionId}`);
-      vm.strategies = oStrategyInfo.data;
-   };
+import RegionHelper from '../../common/helpers/RegionHelper';
 
 export default {
         beforeRouteEnter(to, from, next) {
             next(vm => {
-                onBeforeRouteEnter(vm);
+                RegionHelper.onBeforeRouteEnter(vm);
             })
         },        
    data() {
