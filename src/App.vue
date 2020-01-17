@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Navbar />
+    <Navbar/>
 
     <v-content class="grey darken-4 blue--text text--lighten-4">
 
@@ -9,7 +9,7 @@
     </v-content>
 
     <v-footer app class="grey darken-3 blue--text text--lighten-4">
-      <span>&copy; 2019</span>
+      <span>&copy; 2020</span>
     </v-footer>
   </v-app>
 </template>

@@ -7,19 +7,19 @@ export default
             const oRegionRepository = ApiHandler.getRepository("regions");
             const oStrategyRepository = ApiHandler.getRepository("strategies");
             const sRegionId = vm.$route.params.id;
-            try
-            {
+            /*try
+            {*/
               const oRegionInfo = await oRegionRepository.getById(sRegionId);
               const sCountryId = oRegionInfo.data.region.countryId;
               const sPath = vm.$route.path;                  
               const sStrategyId = sPath.substr(sPath.lastIndexOf("/")+1);    
-              try
-              {
+              /*try
+              {*/
                 const oStrategyInfo = await oStrategyRepository.getById(sStrategyId);
                 vm.strategy = oStrategyInfo.data;    
                 vm.strategy.countryId = sCountryId;
                 vm.strategy.regionId = sRegionId;
-              }
+              /*}
               catch(e)
               {
                 alert(">> strategy info not obtained");
@@ -28,19 +28,47 @@ export default
             catch(e)
             {
               alert(">> region info not obtained");
-            }                      
+            }  */                    
        },
 
        onSubmit: async function(oVM,oData)
        {
               const oSimulationRepository = ApiHandler.getRepository(`strategies/${oVM.strategy.id}/${oVM.strategy.countryId}/${oVM.strategy.regionId}/evaluate`);
-              try
-              {
+              /*try
+              {*/
                 return await oSimulationRepository.post(oData);
-              }
+              /*}
               catch(e)
               {
                 alert(">> simulation failed");
-              }
-       }       
-};
+              }*/
+       }       ,
+
+       mapToArray: function(oData)
+          {
+          return Object.keys(oData).map(key => { return { key: key, value: oData[key] } });
+          },
+        handleResults: function(oVue,oResult)
+        {
+          if(oResult && oResult.data.parameters)
+          {
+            oVue.success_opened = true;
+            oVue.results=this.mapToArray(oResult.data.parameters);
+          }
+          else
+          {
+            oVue.error_opened = true;
+          }
+        },
+
+        onSuccessUpdate: function(oVue,v)
+        {
+          oVue.success_opened = v;
+        },
+  
+        onErrorUpdate: function(oVue,v)
+        {
+          oVue.error_opened = v;
+        },
+      
+      };

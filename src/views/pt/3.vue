@@ -1,8 +1,9 @@
 <template>
-  <div class = "5" style="height:100%;">
+  <div class = "3" style="height:100%;">
     
     <h1 class="font-weight-black dark grey darken-3 blue--text text--lighten-4 text-center" style="height:5%;text-transform: capitalize;">
       {{ strategy.name }}
+      <img src="../../assets/madeira.svg" style="height:23px;width:23px;border-radius:50%;"> 
       <img src="../../assets/portugal.svg" style="height:23px;width:23px"> 
     </h1>
 
@@ -189,6 +190,13 @@
             ></v-checkbox>
             </v-col>
 
+            <v-col cols="3">
+            <v-checkbox
+            v-model="teste_madeira"
+            label=" Reside na Madeira? "
+            ></v-checkbox>
+            </v-col>
+
         </v-row>
 
 
@@ -315,6 +323,7 @@ export default {
           meal_allowance: null,
           meal_allowance_days: null,
           meal_allowance_value: null,
+          teste_madeira: false,
 
           
           
@@ -338,6 +347,7 @@ export default {
           meal_allowance_days:this.meal_allowance_days,
           holiday_allowance:+this.holiday_allowance,
           Christmas_subsidy:+this.Christmas_subsidy,
+          teste_madeira:+this.teste_madeira,
           });
           FormHelper.handleResults(this,oResult);
         }

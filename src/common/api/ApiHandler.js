@@ -18,41 +18,41 @@ export default
                 return {
                         get: function()
                         {
-                                try
-                                {
+                                /*try
+                                {*/
                                         return oAPIController.get(`${aName}`);
-                                }
+                                /*}
                                 catch (e)
                                 {
                                         return null;
-                                }
+                                }*/
                         },
                         getById: function(aId)
                         {
-                                try
-                                {
+                                /*try
+                                {*/
                                         return oAPIController.get(`${aName}/${aId}`);
-                                }
-                                catch (e)
+                                /*}*/
+                                /*catch (e)
                                 {
                                         return null;
-                                }
+                                }*/
                         },
                         post: function(aData)
                         {
-                                try
-                                {
+                                /*try
+                                {*/
                                         const oForm = new FormData();
                                         for (const sKey in aData)
                                         {
                                                 oForm.append(sKey, aData[sKey]);
                                         }                                     	
                                         return oAPIController.post(`${aName}`, oForm);
-                                }
+                                /*}
                                 catch (e)
                                 {
                                         return null;
-                                }
+                                }*/
                         }
                 }
         }

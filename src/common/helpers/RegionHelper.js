@@ -7,27 +7,28 @@ export default
             const oRegionRepository = ApiHandler.getRepository("regions");
             const oStrategyRepository = ApiHandler.getRepository("StrategyByCountries/country/region");
             const sRegionId = vm.$route.params.id;
-            try
-            {
+            /*try
+            {*/
               const oRegionInfo = await oRegionRepository.getById(sRegionId);
               vm.region = oRegionInfo.data.region;
               const sCountryId = vm.region.countryId;
-              try
-              {              
+              /*try
+              {   */           
                     const  oStrategyInfo = await oStrategyRepository.getById(`${sCountryId}/${sRegionId}`);
                     vm.strategies = oStrategyInfo.data.map(function(s)
                     {
                         var oExceptionStrategy = this._getExceptionStrategy(s);                            
                         if(oExceptionStrategy)
                         {
-                            return oExceptionStrategy;
+                            return oExceptionStrategy.strategy;
                         }
                         else
                         {
-                            return s;
+                            return s.strategy;
                         }
-                    }.bind(this));
-              }
+                        
+                    }.bind(this));   
+              /*}
               catch(e)
               {
                     alert(">> strategy info not obtained");
@@ -36,7 +37,7 @@ export default
             catch(e)
             {
               alert(">> region info not obtained");
-            }              
+            }  */            
        },
 
         _getExceptionStrategy: function(oStrategy)

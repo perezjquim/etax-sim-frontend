@@ -3,7 +3,9 @@ import Vuetify from 'vuetify/lib';
 import '@mdi/font/css/materialdesignicons.css';
 
 Vue.use(Vuetify, {
+  icons: {
     iconfont: 'mdi',
+  }
 
     // theme: {
 
