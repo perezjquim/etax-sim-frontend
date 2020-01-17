@@ -6,7 +6,7 @@
       <img src="../../assets/spain.svg" style="height:23px;width:23px"> 
     </h1>
 
-    <v-div style="height:95%;display:flex;justify-content:center;align-items:center;border:1px solid rgb(187, 222, 251);border-left:0px;border-right:0px;">
+    <div style="height:95%;display:flex;justify-content:center;align-items:center;border:1px solid rgb(187, 222, 251);border-left:0px;border-right:0px;">
     <v-card
       class="mx-auto"
       style="max-width: 500px;"
@@ -91,13 +91,13 @@
         </v-card-actions>
 
         <v-row justify="center">
-         <success :opened="success_opened" @update="onSuccessUpdate" :results="results"/>
-         <error :opened="error_opened" @update="onErrorUpdate" :results="results"/>
-        </v-row>
+         <success :spain="true" :opened="success_opened" @update="onSuccessUpdate" :results="results"/>
+         <error :spain="true" :opened="error_opened" @update="onErrorUpdate" />
+        </v-row>   
 
     </v-form>
     </v-card>
-    </v-div>
+    </div>
 </div>
   
 </template>

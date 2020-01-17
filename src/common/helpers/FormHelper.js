@@ -54,6 +54,12 @@ export default
           {
             oVue.success_opened = true;
             oVue.results=this.mapToArray(oResult.data.parameters);
+            var results = oVue.results;
+            var i = 0;
+            for(i=0; i<results.length; i++){
+              results[i].value = Math.round(results[i].value*100)/100;
+            }
+            oVue.results = results;
           }
           else
           {

@@ -7,7 +7,7 @@
       <img src="../../assets/portugal.svg" style="height:23px;width:23px"> 
     </h1>
 
-    <v-div style="height:95%;display:flex;justify-content:center;align-items:center;border:1px solid rgb(187, 222, 251);border-left:0px;border-right:0px;">
+    <div style="height:95%;display:flex;justify-content:center;align-items:center;border:1px solid rgb(187, 222, 251);border-left:0px;border-right:0px;">
     <v-card
       class="mx-auto"
       style="max-width: 1000px;"
@@ -99,7 +99,7 @@
                 item-value="value"
                 item-text="text"
                 :items="twelfths_items"
-                :rules="[v => !!v || 'Campo necessário']"
+                :rules="[v => !!v || 'Este campo é obrigatório']"
                 label="Recebe subsídio(s) em duodécimos?"
                 required
                 clearable
@@ -125,13 +125,14 @@
                 item-value="value"
                 item-text="text"
                 :items="meal_allowance_items"
-                :rules="[v => !!v || 'Campo necessário']"
+                :rules="[v => !!v || 'Este campo é obrigatório']"
                 label="Tipo"
                 required
                 clearable
                 outlined
                 dense
                 class="mt-5" 
+                @input="aConditional"
                 ></v-select>
             </v-col>
 
@@ -229,12 +230,12 @@
 
         <v-row justify="center">
          <success :opened="success_opened" @update="onSuccessUpdate" :results="results"/>
-         <error :opened="error_opened" @update="onErrorUpdate" :results="results"/>
+         <error :opened="error_opened" @update="onErrorUpdate" />
         </v-row>
 
     </v-form>
     </v-card>
-    </v-div>
+    </div>
 </div>
   
 </template>
@@ -267,10 +268,22 @@ export default {
             v => v && v > 0 || 'O vencimento base deve ser um número maior que 0',
           ],
           meal_allowanceRules: [
+            
+          ],
+          meal_allowance_daysRules: [
+            
+          ],
+          meal_allowanceRules_false: [
+           
+          ],
+          meal_allowance_daysRules_false: [
+            
+          ],
+          meal_allowanceRules_true: [
             v => !!v || 'Este campo é obrigatório',
             v => v && v > 0 || 'O valor diário deve ser um número maior que 0',
           ],
-          meal_allowance_daysRules: [
+          meal_allowance_daysRules_true: [
             v => !!v || 'Este campo é obrigatório',
             v => v && v > 0 && v < 32 || 'O nº de dias deve ser um número compreendido entre 1 e 31',
             v => v  == Math.floor(v) || 'O nº de dias deve ser um número inteiro',
@@ -282,9 +295,11 @@ export default {
           error_opened: false,
           results: [],
 
-          //Estados iniciais do modelo do form e selects
+          //Estados iniciais do modelo do form, selects, e campos dependentes
           valid: true,
           select: null,
+          conditional: false,
+
 
 
           //Conjuntos de Texto - Valores para os campos com atribuição de valores
@@ -369,7 +384,23 @@ export default {
       onErrorUpdate: function(v)
       {
         FormHelper.onErrorUpdate(this,v)
-      }
+      },
+
+      aConditional (a) {
+        if(a === 'none' || a === undefined){
+          this.conditional= false;
+          this.meal_allowanceRules = this.meal_allowanceRules_false;
+          this.meal_allowance_daysRules = this.meal_allowance_daysRules_false;
+          this.meal_allowance_value = undefined;
+          this.meal_allowance_days = undefined;
+        }else if (a === 'card' || a === 'cash'){
+          this.conditional = true;
+          this.meal_allowanceRules = this.meal_allowanceRules_true;
+          this.meal_allowance_daysRules = this.meal_allowance_daysRules_true;
+        }
+      },
+
+
 
     }    
 }

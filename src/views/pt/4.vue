@@ -6,7 +6,7 @@
       <img src="../../assets/portugal.svg" style="height:23px;width:23px"> 
     </h1>
 
-    <v-div style="height:95%;display:flex;justify-content:center;align-items:center;border:1px solid rgb(187, 222, 251);border-left:0px;border-right:0px;">
+    <div style="height:95%;display:flex;justify-content:center;align-items:center;border:1px solid rgb(187, 222, 251);border-left:0px;border-right:0px;">
     <v-card
       class="mx-auto"
       style="max-width: 1000px;"
@@ -24,7 +24,9 @@
         <v-divider/>
 
         <br>
-        
+        <v-card-text class="display-1 red--text text--lighten-2">
+            Esta simulação estará brevemente disponível.
+        </v-card-text>
 
 
         <!-- Acaba aqui os campos pedidos, falta definir as validations para cada campo -->
@@ -56,12 +58,12 @@
 
         <v-row justify="center">
          <success :opened="success_opened" @update="onSuccessUpdate" :results="results"/>
-         <error :opened="error_opened" @update="onErrorUpdate" :results="results"/>
+         <error :opened="error_opened" @update="onErrorUpdate" />
         </v-row>
 
     </v-form>
     </v-card>
-    </v-div>
+    </div>
 </div>
   
 </template>
